@@ -7,9 +7,10 @@ import {
   isFunction,
   pascal,
 } from '@orval/core';
-import { getRouteMSW, overrideVarName } from '../faker/getters';
+import { getRouteMSW } from '../faker/getters';
 import { getMockDefinition, getMockOptionsDataOverride } from './mocks';
 import { getDelay } from '../delay';
+import { overrideVarName } from '../createOverrideVariable';
 
 const getMSWDependencies = (locale?: string): GeneratorDependency[] => [
   {
@@ -23,6 +24,10 @@ const getMSWDependencies = (locale?: string): GeneratorDependency[] => [
   {
     exports: [{ name: 'faker', values: true }],
     dependency: locale ? `@faker-js/faker/locale/${locale}` : '@faker-js/faker',
+  },
+  {
+    exports: [{ name: 'merge', default: true, values: true }],
+    dependency: 'lodash/merge',
   },
 ];
 
@@ -104,7 +109,8 @@ export const ${handlerName} = (${isReturnHttpResponse && !isTextPlain ? `overrid
   return {
     implementation: {
       function: isReturnHttpResponse
-        ? `export const ${functionName} = (${isResponseOverridable ? `overrideResponse: any = {}` : ''}): ${returnType} => (${value})\n\n`
+        ? // TODO(https://github.com/anymaniax/orval/issues/1210): 'as any' is used to avoid type errors until #1210 is fixed
+          `export const ${functionName} = (${isResponseOverridable ? `${overrideVarName}: any = {}` : ''}): ${returnType} => ${isResponseOverridable ? `merge((${value}), overrideResponse)` : `(${value}) as any`}\n\n`
         : '',
       handlerName: handlerName,
       handler: handlerImplementation,
