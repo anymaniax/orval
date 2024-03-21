@@ -69,4 +69,13 @@ export default defineConfig({
       target: '../specifications/arrays.yaml',
     },
   },
+  additionalProperties: {
+    output: {
+      target: '../generated/zod',
+      client: 'zod',
+    },
+    input: {
+      target: '../specifications/additional-properties.yaml',
+    },
+  },
 });
