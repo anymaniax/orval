@@ -374,6 +374,13 @@ export type ZodOptions = {
     body?: boolean;
     response?: boolean;
   };
+  generate: {
+    param: boolean;
+    query: boolean;
+    header: boolean;
+    body: boolean;
+    response: boolean;
+  };
   coerce?: {
     param?: boolean | ZodCoerceType[];
     query?: boolean | ZodCoerceType[];
@@ -395,6 +402,13 @@ export type ZodCoerceType = 'string' | 'number' | 'boolean' | 'bigint' | 'date';
 
 export type NormalizedZodOptions = {
   strict: {
+    param: boolean;
+    query: boolean;
+    header: boolean;
+    body: boolean;
+    response: boolean;
+  };
+  generate: {
     param: boolean;
     query: boolean;
     header: boolean;

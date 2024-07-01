@@ -21,7 +21,6 @@ import {
   NormalizedOperationOptions,
   NormalizedOptions,
   NormalizedQueryOptions,
-  NormalizedZodOptions,
   OperationOptions,
   OptionsExport,
   OutputClient,
@@ -30,11 +29,9 @@ import {
   RefComponentSuffix,
   SwaggerParserOptions,
   upath,
-  ZodOptions,
 } from '@orval/core';
 import { DEFAULT_MOCK_OPTIONS } from '@orval/mock';
 import chalk from 'chalk';
-import { InfoObject } from 'openapi3-ts/oas30';
 import pkg from '../../package.json';
 import { githubResolver } from './github';
 import { loadPackageJson } from './package-json';
@@ -237,6 +234,13 @@ export const normalizeOptions = async (
             body: outputOptions.override?.zod?.strict?.body ?? false,
             response: outputOptions.override?.zod?.strict?.response ?? false,
           },
+          generate: {
+            param: outputOptions.override?.zod?.generate?.param ?? true,
+            query: outputOptions.override?.zod?.generate?.query ?? true,
+            header: outputOptions.override?.zod?.generate?.header ?? true,
+            body: outputOptions.override?.zod?.generate?.body ?? true,
+            response: outputOptions.override?.zod?.generate?.response ?? true,
+          },
           coerce: {
             param: outputOptions.override?.zod?.coerce?.param ?? false,
             query: outputOptions.override?.zod?.coerce?.query ?? false,
@@ -415,6 +419,13 @@ const normalizeOperationsAndTags = (
                       header: zod.strict?.header ?? false,
                       body: zod.strict?.body ?? false,
                       response: zod.strict?.response ?? false,
+                    },
+                    generate: {
+                      param: zod.generate?.param ?? true,
+                      query: zod.generate?.query ?? true,
+                      header: zod.generate?.header ?? true,
+                      body: zod.generate?.body ?? true,
+                      response: zod.generate?.response ?? true,
                     },
                     coerce: {
                       param: zod.coerce?.param ?? false,
