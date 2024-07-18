@@ -115,6 +115,7 @@ export type NormalizedOverrideOutput = {
   useNamedParameters?: boolean;
   useNativeEnums?: boolean;
   suppressReadonlyModifier?: boolean;
+  customStringFormatResolver?(format: string): string | undefined;
 };
 
 export type NormalizedMutator = {
